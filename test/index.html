@@ -10,13 +10,22 @@
 			box-sizing:border-box;
 		}
 	</style>
+
+	<script type="text/javascript" charset="utf-8" src="dazzleText.js"></script>
 </head>
 <body>
-	<h1>
+	<h1 data-style="a" id="a">
 		你好世界！
 	</h1>
 	<h2>
 		hello world!
 	</h2>
+	<script>
+		var a = dt("a");
+		var b = dt({
+			id:"a",
+			style:"a"
+		});
+	</script>
 </body>
 </html>
