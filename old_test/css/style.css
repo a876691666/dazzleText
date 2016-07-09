@@ -1,0 +1,13 @@
+body,html{padding:0;margin:0;}
+.text-tx-t1:after,.text-tx-t1:before{content:"";display:block;width:100%;clear:both}
+.text-tx-t1  div{float:left;color:#DABA16;}
+
+.text-tx-t1 .one{color:#EBDAB7;}/*左边颜色*/
+
+			.one+div{color:#FCF7EA;}/*过度*/
+
+			.one+div+div{color:#fff;}/*中心颜色*/
+
+			.one+div+div+div{color:#FCF7EA;}/*过度*/
+
+			.one+div+div+div+div{color:#EBDAB7;}/*右边颜色*/

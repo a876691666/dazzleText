@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>文字特效-demo1</title>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script>
+		$(function(){ 
+			function tx_1(){ 
+				var t = $(".one"); // 获取特效  头   [0][1][2][3]
+				t.removeClass("one").next().addClass("one");// 将当前头  交给下一文字 
+				if(t.index() == t.parent().children().length-1){ // 如果是末尾
+					t.parent().children().eq(0).addClass("one"); // 则头交给 0
+				}
+			}
+			var tx1 = $(".text-tx-t1");//目标容器
+			var val = tx1.html().split("");//获取文字并转换成数组
+					  tx1.html("");//清空源div
+			for(var i = 0;i<val.length;i++){
+
+				val[i] = $('<div>'+val[i]+'</div>');//将每个文字都嵌套进一个div里
+				tx1.append(val[i]);//装回源div
+			}
+			tx1.children().eq(0).addClass("one");//为0位置的文字  增加one    class
+			setInterval(tx_1,30);//特效循环主体
+		});
+	</script>
+</head>
+<body>
+	<div class="text-tx-t1">这是一段文字特效……特效一……炫酷的……</div>
+</body>
+</html>
