@@ -38,7 +38,9 @@ var dt = function (a) {
 	};
 
 	dazzleText.prototype.load = function (a) {
-		if(init) return;
+		// if(init) return;
+		
+		init = false;
 		if(typeof(a) == 'string') {
 			if(!this.init(a, o)) return false;
 		}
@@ -67,7 +69,9 @@ var dt = function (a) {
 			this.concat(options, soption || d.dataset);
 
 			this.DOM = d;
-			this.originText = this.trim(d.innerHTML);
+			this.originText = d.innerHTML;
+			this.text = this.trim(d.innerHTML);
+
 			if(!options.id) options.id = id;
 
 		} else{
@@ -92,7 +96,7 @@ var dt = function (a) {
 
 	dazzleText.prototype.create = function () {
 		for(var i = 0; i < this.options.size; i++) this.DOM.innerHTML += '<div style="display:none;" index="'+ i +'"></div>'
-		for(var i in this.originText) this.DOM.innerHTML += '<div class="dt-inline">'+ this.originText[i] +'</div>';
+		for(var i in this.text) this.DOM.innerHTML += '<div class="dt-inline">'+ this.text[i] +'</div>';
 	};
 
 	dazzleText.prototype.createAnimation = function (){ 
@@ -123,7 +127,9 @@ var dt = function (a) {
 
 	dazzleText.prototype.start = function (f) {
 		if(f) this.startIndex = 0;
+		if(this.stopFlag) return;
 
+		this.stopFlag = true;
 		var option = this.options;
 		var that = this;
 		this.intervalNum = setInterval(function(){
@@ -134,11 +140,13 @@ var dt = function (a) {
 	dazzleText.prototype.stop = function (f) {
 		if(f) this.startIndex = 0;
 
+		this.stopFlag = false;
 		clearInterval(this.intervalNum);
 	};
 
 	dazzleText.prototype.destory = function () {
-
+		this.stop(true);
+		this.DOM.innerHTML = this.originText;
 	};
 
 	dazzleText.prototype.setOption = function (key, value) {
