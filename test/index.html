@@ -11,21 +11,33 @@
 		}
 	</style>
 
+	<link rel="stylesheet" type="text/css" href="dazzleText.css">
 	<script type="text/javascript" charset="utf-8" src="dazzleText.js"></script>
 </head>
 <body>
-	<h1 data-style="a" id="a">
-		你好世界！
+	<h1 id="a">
+		你好世界！你好世界！
 	</h1>
-	<h2>
+	<input type="button" value="暂停" onclick="b.stop()">
+	<input type="button" value="开始" onclick="b.start()">
+
+	<input type="text" id="key">
+	<input type="text" id="values">
+
+	<input type="button" value="setOption" onclick="b.setOption(key.value, values.value)">
+
+	<h2 id="b" data-delay="10000">
 		hello world!
 	</h2>
 	<script>
-		var a = dt("a");
+		// var a = dt("a");// "a" 代表目标容器的id
 		var b = dt({
-			id:"a",
-			style:"a"
+			id:"a",//目标容器id
+			delay: 0
 		});
+
+		var a = dt("b");
+
 	</script>
 </body>
 </html>

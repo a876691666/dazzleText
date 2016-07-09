@@ -1,0 +1,12 @@
+.dt-inline{
+	display: inline;
+}
+.one{color:#EBDAB7;}/*左边颜色*/
+
+.one+div{color:#FCF7EA;}/*过度*/
+
+.one+div+div{color:#fff;}/*中心颜色*/
+
+.one+div+div+div{color:#FCF7EA;}/*过度*/
+
+.one+div+div+div+div{color:#EBDAB7;}/*右边颜色*/
