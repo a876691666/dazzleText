@@ -1,11 +1,3 @@
-//id：目标容器的id
-//text：目标容器里的文字
-//style：你要应用的样子
-//
-//
-//css
-//
-
 var dt = function (a) {
 
 	var o = {//default option
@@ -20,9 +12,10 @@ var dt = function (a) {
 			delay:500   //ms
 
 		};//options list
-	var init = false;
+
 	var dazzleText = function () {
 		this.startIndex = 0;
+		this.isDestory = true;
 	};
 
 	dazzleText.prototype = {
@@ -38,16 +31,14 @@ var dt = function (a) {
 	};
 
 	dazzleText.prototype.load = function (a) {
-		// if(init) return;
-		
-		init = false;
+
 		if(typeof(a) == 'string') {
-			if(!this.init(a, o)) return false;
+			if(!this._initOptions(a, o)) return false;
 		}
 
 		if(typeof(a) == 'object') {
 			if(!a.id) return false;
-			if(!this.init(a.id, o, a)) return false;
+			if(!this._initOptions(a.id, o, a)) return false;
 		}
 
 
@@ -55,14 +46,10 @@ var dt = function (a) {
 
 		this.options = o;
 
-		this.main();
-
-		init = true;
 		return this;
 	};
 
-	dazzleText.prototype.init = function (id, options, soption) {
-		if(init) return;
+	dazzleText.prototype._initOptions = function (id, options, soption) {
 		var d = {};//d 是目标容器
 
 		if( d = document.getElementById(id) ){
@@ -80,14 +67,14 @@ var dt = function (a) {
 		return true;
 	};
 
-	dazzleText.prototype.main = function () {
-		if(init) return;
+	dazzleText.prototype.init = function () {
 		var option = this.options;
 		var DOM = this.DOM;
+		this.isDestory = false;
 
 		this.clear();//清空目标容器
 		this.create();//创建循环所需要的dom
-		this.start();//动画开始
+		this.play();//动画开始
 	};
 
 	dazzleText.prototype.clear = function () {
@@ -95,17 +82,12 @@ var dt = function (a) {
 	};
 
 	dazzleText.prototype.create = function () {
-		for(var i = 0; i < this.options.size; i++) this.DOM.innerHTML += '<div style="display:none;" index="'+ i +'"></div>'
+		for(var i = 0; i < this.options.size; i++) this.DOM.innerHTML += '<div style="display:none;" index="'+ i +'"></div>';
 		for(var i in this.text) this.DOM.innerHTML += '<div class="dt-inline">'+ this.text[i] +'</div>';
 	};
 
-	dazzleText.prototype.createAnimation = function (){ 
-		var that = this;
-		var option = this.options;
-		var DOM = this.DOM;
-		var children = DOM.childNodes;
-		var centerSign = children[this.startIndex];
-
+	dazzleText.prototype._createAnimation = function (){ 
+		var that = this, option = this.options, DOM = this.DOM, children = DOM.childNodes, centerSign = children[this.startIndex];
 		for(var i in children) {
 			if(typeof(children[i]) != "object") continue;
 			children[i].className = children[i].className.replace(" one", "");
@@ -115,7 +97,7 @@ var dt = function (a) {
 			this.stop(true);
 
 			setTimeout(function(){
-				that.start(true);
+				that.play(true);
 			}, option.delay);
 
 			return ;
@@ -125,33 +107,42 @@ var dt = function (a) {
 		this.startIndex++;
 	};
 
-	dazzleText.prototype.start = function (f) {
+	dazzleText.prototype.play = function (f) {
+		if(this.isDestory) return;
 		if(f) this.startIndex = 0;
 		if(this.stopFlag) return;
-
 		this.stopFlag = true;
+
 		var option = this.options;
 		var that = this;
+
 		this.intervalNum = setInterval(function(){
-			that.createAnimation();
+			that._createAnimation();
 		}, option.time);
 	};
 
 	dazzleText.prototype.stop = function (f) {
+		if(this.isDestory) return;
 		if(f) this.startIndex = 0;
-
 		this.stopFlag = false;
+		
 		clearInterval(this.intervalNum);
 	};
 
 	dazzleText.prototype.destory = function () {
 		this.stop(true);
+		this.isDestory = true;
 		this.DOM.innerHTML = this.originText;
 	};
 
 	dazzleText.prototype.setOption = function (key, value) {
 		this.options[key] = value;
 	};
+	
+	var dt = new dazzleText();
 
-	return new dazzleText().load(a);
+	dt.load(a);
+	dt.init(a);
+
+	return 	dt;
 };
